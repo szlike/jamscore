@@ -1,0 +1,213 @@
+.app-shell {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  padding: 2rem 1rem 2.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #d8dde8;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.subtext {
+  margin: 0.5rem 0 1rem;
+  color: #5a6472;
+}
+
+.search-form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+input {
+  min-width: 260px;
+  flex: 1;
+  border: 1px solid #b4bdcc;
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+}
+
+select {
+  width: 100%;
+  min-width: 260px;
+  border: 1px solid #b4bdcc;
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem;
+  font: inherit;
+  background: #fff;
+}
+
+button {
+  border-radius: 6px;
+  border: 1px solid #3a74db;
+  background: #3a74db;
+  color: #fff;
+  padding: 0.65rem 0.95rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.secondary {
+  border-color: #b4bdcc;
+  background: #fff;
+  color: #20304a;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.endpoint {
+  margin: 0.85rem 0 0;
+  font-size: 0.9rem;
+  color: #5a6472;
+}
+
+.file-picker {
+  margin-top: 0.8rem;
+}
+
+.file-picker label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.transpose-controls {
+  margin-top: 0.8rem;
+}
+
+.transpose-controls > span {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.transpose-key-row {
+  margin-top: 0.8rem;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1.8fr 1fr;
+  align-items: start;
+}
+
+.transpose-key-row .transpose-controls {
+  margin-top: 0;
+}
+
+.key-display {
+  border: 1px solid #d8dde8;
+  border-radius: 6px;
+  padding: 0.65rem 0.75rem;
+  background: #f8fafd;
+}
+
+.key-display span {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  color: #5a6472;
+}
+
+.key-display strong {
+  display: block;
+  font-size: 1rem;
+}
+
+.key-display small {
+  display: block;
+  margin-top: 0.2rem;
+  color: #5a6472;
+}
+
+.error {
+  margin: 0.75rem 0 0;
+  color: #b1213b;
+  font-weight: 600;
+}
+
+.score-panel {
+  background: #ffffff;
+  border: 1px solid #d8dde8;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.score-container {
+  width: 100%;
+  min-height: 220px;
+  overflow-x: auto;
+  background: #f8fafd;
+  border: 1px solid #e4e9f2;
+  border-radius: 6px;
+}
+
+.placeholder {
+  margin: 1.2rem;
+  color: #647083;
+}
+
+.xml-panel {
+  margin-top: 0.75rem;
+  border: 1px solid #e4e9f2;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.xml-panel.inline pre {
+  max-height: 220px;
+}
+
+.xml-panel h2 {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #e4e9f2;
+  font-size: 0.95rem;
+}
+
+.xml-panel pre {
+  margin: 0;
+  max-height: 300px;
+  overflow: auto;
+  padding: 0.75rem;
+  background: #f8fafd;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding: 1rem 0.7rem 1.4rem;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+
+  input {
+    min-width: 100%;
+  }
+
+  .transpose-key-row {
+    grid-template-columns: 1fr;
+  }
+}
