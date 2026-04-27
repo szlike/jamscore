@@ -541,9 +541,9 @@ function App() {
     [xmlText, transposeSemitones],
   )
 
-  function getPublicFileUrl(fileName) {
-    return `/xml/${encodeURIComponent(fileName)}`
-  }
+function getPublicFileUrl(fileName) {
+  return `${import.meta.env.BASE_URL || '/'}xml/${encodeURIComponent(fileName)}`
+}
 
   const loadPublicFile = useCallback(async (fileName) => {
     const response = await fetch(getPublicFileUrl(fileName))
@@ -648,13 +648,13 @@ function App() {
 
     async function loadFileList() {
       try {
-        const response = await fetch('/api/musicxml-files')
+        const response = await fetch(`${import.meta.env.BASE_URL || '/'}xml/file-list.json`)
         if (!response.ok) {
           throw new Error('Unable to list files.')
         }
 
         const payload = await response.json()
-        const files = Array.isArray(payload.files) ? payload.files : []
+        const files = Array.isArray(payload) ? payload : []
         if (cancelled) return
 
         setAvailableFiles(files)
