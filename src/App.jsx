@@ -542,7 +542,7 @@ function App() {
   )
 
   function getPublicFileUrl(fileName) {
-    return `/${encodeURIComponent(fileName)}`
+    return `/xml/${encodeURIComponent(fileName)}`
   }
 
   const loadPublicFile = useCallback(async (fileName) => {
