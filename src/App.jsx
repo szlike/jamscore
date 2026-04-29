@@ -4,6 +4,7 @@ import { Toolbox } from './components/Toolbox'
 import { useScoreRenderer } from './hooks/useScoreRenderer'
 import { getCurrentKeyInfo, transposeMusicXml } from './musicxml/transposeMusicXml'
 import {
+  canDownloadMusicXml,
   canTransposeScoreFile,
   createMusicXmlDownloadFileName,
   getPublicScoreFileUrl,
@@ -17,8 +18,13 @@ function getKeyInfoForScore(scoreFile, transposeSemitones) {
   }
 
   if (!canTransposeScoreFile(scoreFile)) {
+    return getCurrentKeyInfo('', transposeSemitones)
+  }
+
+  if (scoreFile.type === 'alphatab') {
+    const semitoneLabel = transposeSemitones > 0 ? `+${transposeSemitones}` : transposeSemitones
     return {
-      currentLabel: 'Not available',
+      currentLabel: transposeSemitones === 0 ? 'Original pitch' : `${semitoneLabel} semitones`,
       originalLabel: 'Guitar Pro file',
     }
   }
@@ -42,6 +48,7 @@ function App() {
 
   const apiBase = import.meta.env.VITE_MUSICXML_API_URL || '/api/musicxml'
   const canTransposeCurrentScore = canTransposeScoreFile(scoreFile)
+  const canDownloadCurrentScore = canDownloadMusicXml(scoreFile)
   const currentKeyInfo = useMemo(
     () => getKeyInfoForScore(scoreFile, transposeSemitones),
     [scoreFile, transposeSemitones],
@@ -192,7 +199,7 @@ function App() {
   }
 
   function downloadCurrentXml() {
-    if (!canTransposeCurrentScore) {
+    if (!canDownloadCurrentScore) {
       setFetchError('No MusicXML loaded to download.')
       return
     }
@@ -242,7 +249,7 @@ function App() {
         <Toolbox
           apiBase={apiBase}
           availableFiles={availableFiles}
-          canDownloadMusicXml={canTransposeCurrentScore}
+          canDownloadMusicXml={canDownloadCurrentScore}
           currentKeyInfo={currentKeyInfo}
           fetchError={fetchError}
           fileListError={fileListError}

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { transposeMusicXml } from '../musicxml/transposeMusicXml'
-import { renderAlphaTabScore } from '../renderers/renderAlphaTabScore'
+import { applyAlphaTabTransposition, renderAlphaTabScore } from '../renderers/renderAlphaTabScore'
 import { renderMusicXmlFallback } from '../renderers/renderMusicXmlFallback'
 
 export function useScoreRenderer({
@@ -12,6 +12,12 @@ export function useScoreRenderer({
   transposeSemitones,
 }) {
   const alphaTabApiRef = useRef(null)
+  const transposeSemitonesRef = useRef(transposeSemitones)
+  const renderTransposeSemitones = scoreFile?.type === 'musicxml' ? transposeSemitones : 0
+
+  useEffect(() => {
+    transposeSemitonesRef.current = transposeSemitones
+  }, [transposeSemitones])
 
   useEffect(() => {
     if (!scoreRef.current) return
@@ -47,9 +53,14 @@ export function useScoreRenderer({
       scoreRef.current.appendChild(alphaTabHost)
 
       try {
-        const api = await renderAlphaTabScore(alphaTabHost, scoreFile.data, (message) => {
-          if (!cancelled) setRenderError(message)
-        })
+        const api = await renderAlphaTabScore(
+          alphaTabHost,
+          scoreFile.data,
+          (message) => {
+            if (!cancelled) setRenderError(message)
+          },
+          () => transposeSemitonesRef.current,
+        )
 
         if (cancelled) {
           api.destroy()
@@ -108,9 +119,9 @@ export function useScoreRenderer({
 
       let transposedXml = scoreFile.text
 
-      if (transposeSemitones !== 0) {
+      if (renderTransposeSemitones !== 0) {
         try {
-          transposedXml = transposeMusicXml(scoreFile.text, transposeSemitones)
+          transposedXml = transposeMusicXml(scoreFile.text, renderTransposeSemitones)
         } catch (error) {
           setRenderError(
             error instanceof Error ? error.message : 'Unable to transpose MusicXML.',
@@ -131,7 +142,7 @@ export function useScoreRenderer({
       if (cancelled) return
 
       if (renderedOriginal) {
-        if (transposeSemitones !== 0) {
+        if (renderTransposeSemitones !== 0) {
           setRenderError('This file could not be transposed, showing original key.')
         } else {
           setRenderError('')
@@ -157,5 +168,18 @@ export function useScoreRenderer({
         destroyAlphaTabApi()
       }
     }
-  }, [isScoreFullscreen, osmdRef, scoreFile, scoreRef, setRenderError, transposeSemitones])
+  }, [
+    isScoreFullscreen,
+    osmdRef,
+    renderTransposeSemitones,
+    scoreFile,
+    scoreRef,
+    setRenderError,
+  ])
+
+  useEffect(() => {
+    if (scoreFile?.type !== 'alphatab' || !alphaTabApiRef.current) return
+
+    applyAlphaTabTransposition(alphaTabApiRef.current, transposeSemitones)
+  }, [scoreFile, transposeSemitones])
 }

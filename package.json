@@ -7,7 +7,8 @@
     "dev": "node generate-file-list.js && vite",
     "build": "node generate-file-list.js && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "scanfile": "node generate-file-list.js"
   },
   "dependencies": {
     "@coderline/alphatab": "^1.8.1",

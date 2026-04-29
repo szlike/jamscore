@@ -19,6 +19,10 @@ export function getScoreFileType(fileName) {
 }
 
 export function canTransposeScoreFile(scoreFile) {
+  return scoreFile?.type === 'musicxml' || scoreFile?.type === 'alphatab'
+}
+
+export function canDownloadMusicXml(scoreFile) {
   return scoreFile?.type === 'musicxml'
 }
 

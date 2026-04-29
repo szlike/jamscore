@@ -1,4 +1,39 @@
-export async function renderAlphaTabScore(container, scoreData, onError) {
+function getTrackArray(trackSource) {
+  if (!trackSource) return []
+  if (Array.isArray(trackSource)) return trackSource
+  if (typeof trackSource[Symbol.iterator] === 'function') return Array.from(trackSource)
+
+  if (typeof trackSource.length === 'number') {
+    return Array.from({ length: trackSource.length }, (_, index) => trackSource[index]).filter(Boolean)
+  }
+
+  return []
+}
+
+export function applyAlphaTabTransposition(api, semitones, { render = true } = {}) {
+  const scoreTracks = getTrackArray(api.score?.tracks)
+  const renderedTracks = getTrackArray(api.tracks)
+  const tracks = scoreTracks.length > 0 ? scoreTracks : renderedTracks
+  if (tracks.length === 0) return
+
+  api.settings.notation.transpositionPitches = tracks.map(() => semitones)
+  api.updateSettings()
+
+  if (typeof api.changeTrackTranspositionPitch === 'function') {
+    api.changeTrackTranspositionPitch(tracks, semitones)
+  }
+
+  if (render) {
+    api.render()
+  }
+}
+
+export async function renderAlphaTabScore(
+  container,
+  scoreData,
+  onError,
+  getTransposeSemitones = () => 0,
+) {
   const alphaTab = await import('@coderline/alphatab')
   const api = new alphaTab.AlphaTabApi(container, {
     core: {
@@ -15,6 +50,9 @@ export async function renderAlphaTabScore(container, scoreData, onError) {
 
   api.error.on((error) => {
     onError(error instanceof Error ? error.message : 'Failed to render Guitar Pro file.')
+  })
+  api.scoreLoaded.on(() => {
+    applyAlphaTabTransposition(api, getTransposeSemitones(), { render: false })
   })
 
   const didStartLoading = api.load(scoreData)
