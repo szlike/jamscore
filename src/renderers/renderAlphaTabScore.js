@@ -35,10 +35,12 @@ export async function renderAlphaTabScore(
   getTransposeSemitones = () => 0,
 ) {
   const alphaTab = await import('@coderline/alphatab')
+  alphaTab.Environment.printEnvironmentInfo()
   const api = new alphaTab.AlphaTabApi(container, {
     core: {
       fontDirectory: `${import.meta.env.BASE_URL || '/'}font/`,
-      useWorkers: true,
+      // Keep rendering on the main thread so we don't depend on bundler worker plugins.
+      useWorkers: false,
     },
     display: {
       layoutMode: 'page',

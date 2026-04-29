@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { alphaTab } from '@coderline/alphatab-vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -18,7 +17,6 @@ function listScoreFiles(publicDir) {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    alphaTab(),
     react(),
     {
       name: 'musicxml-mock-api',
@@ -57,5 +55,5 @@ export default defineConfig({
       },
     },
   ],
-  base: '/jamscore/'
+  base: './',
 })
