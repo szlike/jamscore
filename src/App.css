@@ -6,6 +6,12 @@
   gap: 1rem;
 }
 
+.app-shell.score-fullscreen {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+}
+
 .panel {
   background: #ffffff;
   border: 1px solid #d8dde8;
@@ -146,19 +152,89 @@ button:disabled {
 }
 
 .score-panel {
+  position: relative;
   background: #ffffff;
   border: 1px solid #d8dde8;
   border-radius: 8px;
   padding: 0.75rem;
 }
 
+.score-fullscreen .score-panel {
+  min-height: 100vh;
+  border: 0;
+  border-radius: 0;
+  padding: 0.75rem;
+}
+
 .score-container {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   min-height: 220px;
   overflow-x: auto;
   background: #f8fafd;
   border: 1px solid #e4e9f2;
   border-radius: 6px;
+}
+
+.score-container--alphatab {
+  overflow-x: hidden;
+}
+
+.alphatab-host {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.alphatab-host .at-surface {
+  max-width: 100%;
+}
+
+.score-fullscreen .score-container {
+  min-height: calc(100vh - 1.5rem);
+}
+
+.score-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 0 10px 28px rgba(32, 48, 74, 0.2);
+}
+
+.score-toggle-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  background:
+    linear-gradient(#fff, #fff) left top / 0.45rem 0.14rem no-repeat,
+    linear-gradient(#fff, #fff) left top / 0.14rem 0.45rem no-repeat,
+    linear-gradient(#fff, #fff) right top / 0.45rem 0.14rem no-repeat,
+    linear-gradient(#fff, #fff) right top / 0.14rem 0.45rem no-repeat,
+    linear-gradient(#fff, #fff) left bottom / 0.45rem 0.14rem no-repeat,
+    linear-gradient(#fff, #fff) left bottom / 0.14rem 0.45rem no-repeat,
+    linear-gradient(#fff, #fff) right bottom / 0.45rem 0.14rem no-repeat,
+    linear-gradient(#fff, #fff) right bottom / 0.14rem 0.45rem no-repeat;
+}
+
+.score-toggle.is-active .score-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.score-toggle-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .placeholder {

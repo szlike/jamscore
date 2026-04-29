@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@coderline/alphatab": "^1.8.1",
     "fast-xml-parser": "^5.7.2",
     "opensheetmusicdisplay": "^1.9.7",
     "react": "^18.3.1",
@@ -17,6 +18,7 @@
     "vexflow": "^5.0.0"
   },
   "devDependencies": {
+    "@coderline/alphatab-vite": "^1.8.1",
     "@eslint/js": "^9.9.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
